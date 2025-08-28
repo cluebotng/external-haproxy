@@ -1,0 +1,1 @@
+run-haproxy: ./entrypoint.py
