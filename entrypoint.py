@@ -10,7 +10,6 @@ from typing import Optional, List, Union, Dict, Any
 def write_config(config_path: PosixPath) -> None:
     backend_hostname = os.environ.get("WEBSERVICE_BACKEND_HOSTNAME")
     backend_port = os.environ.get("WEBSERVICE_BACKEND_PORT", "8000")
-    health_endpoint = os.environ.get("WEBSERVICE_BACKEND_HEALTH_URL", "/internal/health/")
 
     if not backend_hostname or not backend_port:
         raise RuntimeError("Missing BACKEND_HOSTNAME or BACKEND_PORT")
@@ -34,8 +33,7 @@ def write_config(config_path: PosixPath) -> None:
     config += '  http-request return status 200 if health_check\n'
 
     config += 'backend kubernetes\n'
-    config += f'  option httpchk GET {health_endpoint}\n'
-    config += f'  server service {backend_hostname}:{backend_port} check\n'
+    config += f'  server service {backend_hostname}:{backend_port}\n'
 
     with config_path.open('w') as fh:
         fh.write(config)
