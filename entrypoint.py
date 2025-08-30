@@ -39,6 +39,12 @@ def write_config(config_path: PosixPath) -> None:
     config += "resolvers k8s\n"
     config += "  resolve_retries 5\n"
     config += "  timeout retry 1s\n"
+    config += "  hold valid 1s\n"
+    config += "  hold nx 1s\n"
+    config += "  hold other 1s\n"
+    config += "  hold refused 1s\n"
+    config += "  hold timeout 1s\n"
+
     for nameserver in get_nameservers():
         config += f"  nameserver {nameserver} {nameserver}:53\n"
 
